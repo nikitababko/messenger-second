@@ -1,34 +1,55 @@
-import React from 'react';
-
-import { Form, Input, Button, Checkbox } from 'antd';
+import React, { useState, createRef } from 'react';
+import axios from 'axios';
+import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import makeToast from 'Toaster';
 
-const RegisterForm = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+const RegisterForm = (props) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const registerUser = (e) => {
+    e.preventDefault();
+
+    const registerData = {
+      name,
+      email,
+      password,
+    };
+
+    axios.post('/user/register', registerData).then((res) => {
+      makeToast('success', res.data.message);
+      props.history.push('/login');
+    });
+    // .catch((err) => {
+    //   makeToast('error', err.res.data.errorMessage);
+    // });
   };
 
   return (
     <Form
+      onSubmit={registerUser}
       name="normal_login"
       className="login-form"
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
     >
       <Form.Item
-        name="username"
+        name="name"
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: 'Please input your Name!',
           },
         ]}
       >
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Username"
+          placeholder="Name"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
         />
       </Form.Item>
 
@@ -44,6 +65,8 @@ const RegisterForm = () => {
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
           placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
         />
       </Form.Item>
 
@@ -60,21 +83,19 @@ const RegisterForm = () => {
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
         />
       </Form.Item>
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
-        <a className="login-form-forgot" href="">
-          Forgot password
-        </a>
-      </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          Sign in
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="login-form-button"
+          onClick={registerUser}
+        >
+          Sign up
         </Button>
         Or <a href="">login now!</a>
       </Form.Item>
