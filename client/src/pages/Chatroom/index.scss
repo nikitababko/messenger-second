@@ -1,0 +1,22 @@
+.site-card-border-less-wrapper {
+  padding: 30px;
+  background: #ececec;
+}
+
+.chatroom {
+  &-card {
+    margin: 0 auto;
+  }
+
+  &-textarea {
+    margin-top: 250px;
+  }
+
+  &-btn {
+    margin-top: 20px;
+  }
+}
+
+.owner {
+  margin-left: 100px;
+}
