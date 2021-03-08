@@ -4,12 +4,15 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { LoginForm, RegisterForm } from 'modules';
 import { Dashboard } from 'pages';
 
-const Auth = () => (
+const Auth = ({ setSocket, setupSocket }) => (
   <section className="auth">
     <div className="auth__content">
       <Router>
         <Switch>
-          <Route path="/login" component={LoginForm} />
+          <Route
+            path="/login"
+            render={() => <LoginForm setSocket={setSocket} setupSocket={setupSocket} />}
+          />
           <Route path="/register" component={RegisterForm} />
           <Route path="/dashboard" component={Dashboard} />
         </Switch>
