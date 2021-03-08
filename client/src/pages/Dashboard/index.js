@@ -25,12 +25,12 @@ const RegisterForm = () => {
 
   useEffect(() => {
     getChatrooms();
-  }, []);
+  }, [chatrooms]);
 
   const createChatroom = (e) => {
     e.preventDefault();
 
-    axios.post('/chatroom', chatRoomName);
+    axios.post('/chatroom', { name: chatRoomName });
   };
 
   return (
