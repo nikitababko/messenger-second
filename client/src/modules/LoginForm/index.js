@@ -5,8 +5,9 @@ import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import makeToast from 'Toaster';
+import { withRouter } from 'react-router';
 
-const LoginForm = (props) => {
+const LoginForm = ({ history, setupSocket }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,7 +22,8 @@ const LoginForm = (props) => {
     axios.post('/user/login', loginData).then((res) => {
       makeToast('success', res.data.message);
       localStorage.setItem('token', res.data.token);
-      props.history.push('/dashboard');
+      history.push('/dashboard');
+      setupSocket();
     });
   };
 
@@ -84,4 +86,4 @@ const LoginForm = (props) => {
   );
 };
 
-export default LoginForm;
+export default withRouter(LoginForm);
